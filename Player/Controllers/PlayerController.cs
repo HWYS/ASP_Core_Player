@@ -35,7 +35,7 @@ namespace Player.Controllers
             using (StreamReader r = new StreamReader(fullPath))
             {
                 string json = r.ReadToEnd();
-                viewModel.metaDataModels = JsonConvert.DeserializeObject<List<MetaDataModel>>(json);
+                viewModel.metaDataModels = JsonConvert.DeserializeObject<List<MetaDataModel>>(json).Where(x => x.isActive == true).ToList();
                 
                 
             }
