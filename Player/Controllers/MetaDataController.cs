@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Player.Models;
+using Player.ViewModel;
 
 namespace Player.Controllers
 {
@@ -11,7 +14,16 @@ namespace Player.Controllers
             string currentDirectory = Directory.GetCurrentDirectory();
             string path = "Data";
             string fullPath = Path.Combine(currentDirectory, path, "MetaData.json");
-            return View();
+
+            MetaDataViewModel viewModel = new MetaDataViewModel();
+            using (StreamReader r = new StreamReader(fullPath))
+            {
+                string json = r.ReadToEnd();
+                viewModel.metaDataModels = JsonConvert.DeserializeObject<List<MetaDataModel>>(json).Where(x => x.isActive == true).ToList();
+
+            }
+
+            return View(viewModel);
         }
 
         // GET: MetaDataController/Details/5

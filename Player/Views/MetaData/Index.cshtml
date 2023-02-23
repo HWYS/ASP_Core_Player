@@ -59,52 +59,28 @@
             </div>
 
             <div class="form-group">
-                <asp:Button runat="server" type="button" class="btn btn-primary" Text="Save" ID="btnSave" OnClientClick="return checkValidation();" OnClick="btnSave_Click"></asp:Button>
-                <asp:Button runat="server" type="button" class="btn btn-default" Text="Cancel" ID="btnCancel" OnClick="btnCancel_Click"></asp:Button>
+                <button  type="submit" class="btn btn-primary" id="btnSave" onclick="return checkValidation();" OnClick="btnSave_Click">Save</button>
+                <button type="button" class="btn btn-default" ID="btnCancel" OnClick="btnCancel_Click">Cancel</button>
             </div>
 
-            <asp:HiddenField runat="server" ID="hidID" />
+            <table cellpadding="0" cellspacing="0" class="table table-striped">
+                <tr>
+                    <th>Channel Name</th>
+                    <th>Dash URL</th>
+                    <th>Hls URL</th>
+                    <th>Logo URL</th>
 
-            <asp:GridView ID="gvMetaData" runat="server" AutoGenerateColumns="False" class="table table-striped">
-                <Columns>
-                    <asp:TemplateField HeaderText="Channel Name">
-                        <ItemTemplate>
-                            <asp:Label Text='<%# Eval("ChannelName") %>' runat="server" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:TemplateField HeaderText="Dash URL">
-                        <ItemTemplate>
-                            <asp:Label Text='<%# Eval("DashSrc") %>' runat="server" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:TemplateField HeaderText="HLS URL">
-                        <ItemTemplate>
-                            <asp:Label Text='<%# Eval("HlsSrc") %>' runat="server" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:TemplateField HeaderText="LOGO URL" ItemStyle-Width="30%">
-                        <ItemTemplate>
-                            <asp:Label Text='<%# Eval("LogoSrc") %>' runat="server" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:TemplateField>
-                        <ItemTemplate>
-                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("id")%>' OnCommand="editMetaData" Text="Edit" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                    <asp:TemplateField>
-                        <ItemTemplate>
-                            <asp:LinkButton runat="server" CommandArgument='<%#Eval("id")%>' OnCommand="deleteMetaData" Text="Delete" OnClientClick="javascript:confirm('Are you sure to delete?');" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-
-                </Columns>
-            </asp:GridView>
+                </tr>
+                @foreach (MetaDataModel metaDataModel in Model.metaDataModels)
+                {
+                    <tr>
+                        <td>@metaDataModel.channelName</td>
+                        <td>@metaDataModel.dashSrc</td>
+                        <td>@metaDataModel.hlsSrc</td>
+                        <td>@metaDataModel.logoSrc</td>
+                    </tr>
+                }
+            </table>
         </div>
 
         <script type="text/javascript">
