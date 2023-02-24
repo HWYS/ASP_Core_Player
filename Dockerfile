@@ -9,8 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Player/Player.csproj", "Player/"]
 RUN dotnet restore "Player/Player.csproj"
-#COPY . .
-COPY ./Player/ .
+COPY . .
 WORKDIR "/src/Player"
 RUN dotnet build "Player.csproj" -c Release -o /app/build
 
