@@ -33,8 +33,8 @@
   },
   {
     "id": 5,
-    "dashSrc": "https://ucdn.starhubgo.com/bpk-tv/HubPremier5/output/manifest.mpd",
-    "hlsSrc": "https://ucdn.starhubgo.com/bpk-tv/HubPremier5/output/manifest.m3u8",
+    "dashSrc": "https://ucdn.starhubgo.com/bpk-tv/HubPremier5/default/manifest.mpd",
+    "hlsSrc": "https://ucdn.starhubgo.com/bpk-tv/HubPremier5/default/manifest.m3u8",
     "logoSrc": "https://poster.starhubgo.com/Linear_Channels2/225_1920x1080_HTV.png",
     "channelName": "Hub Premier 5",
     "isActive": true
