@@ -41,8 +41,8 @@
   },
   {
     "id": 6,
-    "dashSrc": "https://ucdn.starhubgo.com/bpk-tv/HubPremier6/output/manifest.mpd",
-    "hlsSrc": "https://ucdn.starhubgo.com/bpk-tv/HubPremier6/output/manifest.m3u8",
+    "dashSrc": "https://ucdn.starhubgo.com/bpk-tv/HubPremier6/default/manifest.mpd",
+    "hlsSrc": "https://ucdn.starhubgo.com/bpk-tv/HubPremier6/default/manifest.m3u8",
     "logoSrc": "https://poster.starhubgo.com/Linear_Channels2/226_1920x1080_HTV.png",
     "channelName": "Hub Premier 6",
     "isActive": true
