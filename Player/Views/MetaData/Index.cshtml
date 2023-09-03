@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" asp-action="Save" method="post">
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-static-top">
@@ -25,42 +25,40 @@
                     <!--<a class="navbar-brand" href="#">WebSiteName</a>-->
                 </div>
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="Admin.aspx">Metadata</a></li>
-                    <li><a href="User.aspx">Users</a></li>
-                    <li><a href="Settings.aspx">Settings</a></li>
+                    
                 </ul>
             </div>
         </nav>
         <div class="container">
-
+            <input type="hidden" value="@((bool)ViewData["EditMode"] ? ((MetaDataModel)ViewData["Model"]).id : 0)" asp-for="metaDataModels.FirstOrDefault().id" />
             <div class="form-group">
                 <label for="txtChannelName">Channel Name:</label>
-                <input runat="server" id="txtChannelName" placeholder="Channel Name" class="form-control" />
+                <input runat="server" id="txtChannelName" placeholder="Channel Name" class="form-control" value="@((bool)ViewData["EditMode"] ? ((MetaDataModel)ViewData["Model"]).channelName : string.Empty)" asp-for="metaDataModels.FirstOrDefault().channelName" />
             </div>
 
             <div class="form-group">
                 <label for="txtDashUrl">Dash URL:</label>
-                <input runat="server" ID="txtDashUrl" placeholder="Dash URL" class="form-control" />
+                <input runat="server" ID="txtDashUrl" placeholder="Dash URL" class="form-control" value="@((bool)ViewData["EditMode"] ? ((MetaDataModel)ViewData["Model"]).dashSrc : string.Empty)" asp-for="metaDataModels.FirstOrDefault().dashSrc" />
             </div>
 
             <div class="form-group">
                 <label for="txtHlsURL">HLS URL:</label>
-                <input runat="server" ID="txtHlsURL" placeholder="HLS URL" class="form-control" />
+                <input runat="server" ID="txtHlsURL" placeholder="HLS URL" class="form-control" value="@((bool)ViewData["EditMode"] ? ((MetaDataModel)ViewData["Model"]).hlsSrc : string.Empty)" asp-for="metaDataModels.FirstOrDefault().hlsSrc" />
             </div>
 
             <div class="form-group">
                 <label for="txtLogoURL">Logo URL:</label>
-                <input runat="server" ID="txtLogoURL" placeholder="Logo URL" class="form-control" />
+                <input runat="server" ID="txtLogoURL" placeholder="Logo URL" class="form-control" value="@((bool)ViewData["EditMode"] ? ((MetaDataModel)ViewData["Model"]).logoSrc : string.Empty)" asp-for="metaDataModels.FirstOrDefault().logoSrc" />
             </div>
 
-            <div class="form-check">
-                <asp:CheckBox runat="server" ID="chkIsActive" class="form-check-input" Checked="true" Text="Active" TextAlign="Right" />
-
+            <div class="form-check">                
+                <input type="checkbox" id="isActive" checked="@((bool)ViewData["EditMode"] ? ((MetaDataModel)ViewData["Model"]).isActive : false)" asp-for="metaDataModels.FirstOrDefault().isActive" />
+                <label for="isActive">Show</label><br>
             </div>
 
             <div class="form-group">
-                <button  type="submit" class="btn btn-primary" id="btnSave" onclick="return checkValidation();" OnClick="btnSave_Click">Save</button>
-                <button type="button" class="btn btn-default" ID="btnCancel" OnClick="btnCancel_Click">Cancel</button>
+                <input type="submit" class="btn btn-primary" id="btnSave" onclick="return checkValidation();" value="@((bool)ViewData["EditMode"] ? "Update" : "Add")">
+                <input type="submit" class="btn btn-default" ID="btnCancel" value="Cancel"/>
             </div>
 
             <table cellpadding="0" cellspacing="0" class="table table-striped">
@@ -78,6 +76,7 @@
                         <td>@metaDataModel.dashSrc</td>
                         <td>@metaDataModel.hlsSrc</td>
                         <td>@metaDataModel.logoSrc</td>
+                        <td><a href="@Url.Action("Index", new { id = metaDataModel.id })">Edit</a></td>
                     </tr>
                 }
             </table>
@@ -108,6 +107,30 @@
                 }
                 return true;
             }
+        </script>
+
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.2.0/firebase-analytics.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+                apiKey: "AIzaSyDGCdKDitTJCE2US2WDekjaD_okM1rb6z8",
+                authDomain: "epl-plan-c.firebaseapp.com",
+                projectId: "epl-plan-c",
+                storageBucket: "epl-plan-c.appspot.com",
+                messagingSenderId: "117377094050",
+                appId: "1:117377094050:web:7ec8d75a0772b9bd0ca2fb",
+                measurementId: "G-R8CHEDGPEB"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
         </script>
     </form>
 </body>

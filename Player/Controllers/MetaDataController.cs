@@ -3,27 +3,81 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Player.Models;
 using Player.ViewModel;
+using System.IO;
 
 namespace Player.Controllers
 {
     public class MetaDataController : Controller
-    {
+    {   
         // GET: MetaDataController
-        public ActionResult Index()
+        public ActionResult Index(int id)
+        {            
+            
+            MetaDataViewModel viewModel = new MetaDataViewModel();
+            viewModel.metaDataModels = getMetaDataModels();
+            ViewData["EditMode"] = false;
+
+            if (id != 0)
+            {
+                var metaDataToEdit = viewModel.metaDataModels.FirstOrDefault(m => m.id == id);
+                if (metaDataToEdit != null)
+                {
+                    ViewData["EditMode"] = true;
+                    ViewData["Model"] = metaDataToEdit;
+                }
+            }
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Save(MetaDataModel model)
+        {
+            MetaDataViewModel viewModel = new MetaDataViewModel();
+
+            viewModel.metaDataModels = getMetaDataModels();
+
+            if (model.id == 0) // New MetaData
+            {
+                model.id = viewModel.metaDataModels.Count + 1;
+                viewModel.metaDataModels.Add(model);
+            }
+            else // Edit existing note
+            {
+                var existing = viewModel.metaDataModels.FirstOrDefault(m => m.id == model.id);
+                var index = viewModel.metaDataModels.IndexOf(existing);
+                if (existing != null)
+                {
+                    viewModel.metaDataModels[index] = model;
+                }
+            }
+
+            System.IO.File.WriteAllText(getFullFilePath(), JsonConvert.SerializeObject(viewModel.metaDataModels));
+
+            return RedirectToAction("Index");
+        }
+        private string getFullFilePath()
         {
             string currentDirectory = Directory.GetCurrentDirectory();
             string path = "Data";
             string fullPath = Path.Combine(currentDirectory, path, "MetaData.json");
+            return fullPath;
+        }
 
+        private List<MetaDataModel> getMetaDataModels()
+        {
+            string filePath = getFullFilePath();
             MetaDataViewModel viewModel = new MetaDataViewModel();
-            using (StreamReader r = new StreamReader(fullPath))
+            if (System.IO.File.Exists(filePath))
             {
-                string json = r.ReadToEnd();
-                viewModel.metaDataModels = JsonConvert.DeserializeObject<List<MetaDataModel>>(json).Where(x => x.isActive == true).ToList();
+                
+                using (StreamReader r = new StreamReader(getFullFilePath()))
+                {
+                    string json = r.ReadToEnd();
+                    viewModel.metaDataModels = JsonConvert.DeserializeObject<List<MetaDataModel>>(json).ToList();
 
+                }
             }
-
-            return View(viewModel);
+            return viewModel.metaDataModels;
         }
 
         // GET: MetaDataController/Details/5
