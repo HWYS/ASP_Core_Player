@@ -93,6 +93,6 @@
     "hlsSrc": "https://ucdn.starhubgo.com/bpk-tv/ONEHD/default/manifest.m3u8",
     "logoSrc": "https://poster.starhubgo.com/Linear_channels2/124_1920x1080_HTV.png",
     "channelName": "Test Channel",
-    "isActive": true
+    "isActive": false
   }
 ]
