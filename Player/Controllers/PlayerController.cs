@@ -32,6 +32,11 @@ namespace Player.Controllers
 
             
             MetaDataViewModel viewModel = new MetaDataViewModel();
+
+            InfoMessageModel infoMessageModel = new InfoMessageModel();
+            infoMessageModel = infoMessageModel.GetInfoMessageModel();
+            viewModel.message = infoMessageModel.isActive ? infoMessageModel.message : "";
+
             using (StreamReader r = new StreamReader(fullPath))
             {
                 string json = r.ReadToEnd();
